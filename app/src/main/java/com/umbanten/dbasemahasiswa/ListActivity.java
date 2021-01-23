@@ -1,35 +1,35 @@
 package com.umbanten.dbasemahasiswa;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-//import android.support.v7.widget.SearchView;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
-public class ListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
+import android.support.v7.widget.SearchView;
+
+public class ListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     StudentItemAdapter studentItemAdapter;
     StudentDataSource studentDataSource;
     List<Student> studentList;
     ListView lvStudent;
-    //SearchView svStudent;
+    SearchView svStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        lvStudent=findViewById(R.id.lv_student);
-        svStudent=findViewById(R.id.sv_student);
+        lvStudent = findViewById(R.id.lv_student);
+        svStudent = findViewById(R.id.sv_student);
         lvStudent.setOnItemClickListener(this);
 
         //untuk mengaktifkan context menu
@@ -40,44 +40,44 @@ public class ListActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
 
-        getMenuInflater().inflate(R.menu.context_menu,menu);
+        getMenuInflater().inflate(R.menu.context_menu, menu);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
         //Mendapatkan info context menu
-        AdapterView.AdapterContextMenuInfo adapterContextMenuInfo= (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        AdapterView.AdapterContextMenuInfo adapterContextMenuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
-        int posisiItem=adapterContextMenuInfo.position;
+        int posisiItem = adapterContextMenuInfo.position;
 
-        long studentId=studentList.get(posisiItem).getId();
+        long studentId = studentList.get(posisiItem).getId();
 
         //untuk menentukan pilihan menu ubah dan hapus
-        int menuId=item.getItemId();
+        int menuId = item.getItemId();
 
-        switch (menuId){
+        switch (menuId) {
             case R.id.menu_ubah:
 
                 //Kiirm data idSiswa ke DetailActivity
-                Intent intent=new Intent(this, FormInputActivity.class);
-                intent.putExtra("idSiswa",studentId);
+                Intent intent = new Intent(this, FormInputActivity.class);
+                intent.putExtra("idSiswa", studentId);
                 startActivity(intent);
 
                 break;
             case R.id.menu_hapus:
 
-                boolean statusHapus=studentDataSource.deleteStudent(studentId);
-                if (statusHapus){
+                boolean statusHapus = studentDataSource.deleteStudent(studentId);
+                if (statusHapus) {
 
                     //Kosongkan list
                     studentList.clear();
 
-                    List<Student> students=studentDataSource.getAllStudent();
+                    List<Student> students = studentDataSource.getAllStudent();
 
                     //Tambahkan ke list
-                    for (int i = 0;i < students.size();i++){
-                        Student student=students.get(i);
+                    for (int i = 0; i < students.size(); i++) {
+                        Student student = students.get(i);
                         studentList.add(student);
                     }
 
@@ -92,19 +92,19 @@ public class ListActivity extends AppCompatActivity implements AdapterView.OnIte
     //Untuk menghubungkan main_menu di xml
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu,menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     //untuk Aksi ketika menu di klik
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int menuId=item.getItemId();
+        int menuId = item.getItemId();
 
-        switch (menuId){
+        switch (menuId) {
             case R.id.menu_input:
                 //Pindah ke activity FormInputActivity
-                startActivity(new Intent( this,FormInputActivity.class));
+                startActivity(new Intent(this, FormInputActivity.class));
                 break;
 
             case R.id.menu_logout:
@@ -121,14 +121,14 @@ public class ListActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onResume();
 
         //Ambil data dari database
-        studentDataSource=new StudentDataSource(getApplicationContext());
+        studentDataSource = new StudentDataSource(getApplicationContext());
         studentDataSource.bukaDatabase();
-        studentList=studentDataSource.getAllStudent();
+        studentList = studentDataSource.getAllStudent();
         //studentDataSource.tutupDatabase();
 
-        System.out.println("Panjang : "+studentList);
+        System.out.println("Panjang : " + studentList);
         //Setting Adapter
-        studentItemAdapter=new StudentItemAdapter(this,studentList);
+        studentItemAdapter = new StudentItemAdapter(this, studentList);
         //Masukkan adapter ke Listview
         lvStudent.setAdapter(studentItemAdapter);
 
@@ -144,11 +144,11 @@ public class ListActivity extends AppCompatActivity implements AdapterView.OnIte
                 //Kosongkan list
                 studentList.clear();
 
-                List<Student> students=studentDataSource.getAllStudentSearch(kataKunci);
+                List<Student> students = studentDataSource.getAllStudentSearch(kataKunci);
 
                 //Tambahkan ke list
-                for (int i=0;i<students.size();i++){
-                    Student student=students.get(i);
+                for (int i = 0; i < students.size(); i++) {
+                    Student student = students.get(i);
                     studentList.add(student);
                 }
 
@@ -166,11 +166,11 @@ public class ListActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        long idSiswa=studentList.get(position).getId();
+        long idSiswa = studentList.get(position).getId();
 
         //Kiirm data idSiswa ke DetailActivity
-        Intent intent=new Intent(this, DetailActivity.class);
-        intent.putExtra("idSiswa",idSiswa);
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra("idSiswa", idSiswa);
         startActivity(intent);
 
     }

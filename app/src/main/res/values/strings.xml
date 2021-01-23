@@ -3,4 +3,15 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="alamat1">Jl. Aria Jaya Santika KM. 4 No. 40, Pasir Nangka</string>
+    <string name="nama_depan">Nama Depan</string>
+    <string name="nama_belakang">Nama Belakang</string>
+    <string name="no_hp">Nomer Handphone</string>
+    <string name="tanggal_lahir">Tempat Tagl Lahir</string>
+    <string name="pria">Pria</string>
+    <string name="wanita">Wanita</string>
+    <string name="hobi">Hobi</string>
+    <string name="membaca">membaca</string>
+    <string name="menulis">menulis</string>
+    <string name="menggambar">menggambar</string>
+    <string name="alamat">alamat</string>
 </resources>
